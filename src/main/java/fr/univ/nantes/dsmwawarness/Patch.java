@@ -12,6 +12,7 @@ private String patchID;
 private Collection<Operation> operations;
 private Boolean published;
 private Document doc;
+private Patch previous;
 
 
 public Patch(String id) {
@@ -27,6 +28,14 @@ public Patch(String id, Document mydoc,Boolean p) {
     patchID= id;
     published =p;
     doc = mydoc;
+}
+
+
+public Patch(String id, Document mydoc, Patch prev, Boolean p) {
+    patchID= id;
+    published =p;
+    doc = mydoc;
+    previous =prev;
 }
 
     public Document getDoc() {
@@ -58,6 +67,10 @@ public Patch(String id, Document mydoc,Boolean p) {
 
     public String getPatchID() {
         return patchID;
+    }
+
+    public Patch getPrevious() {
+        return previous;
     }
 
     public void setPatchID(String patchID) {
