@@ -22,6 +22,16 @@ public class Jena {
     private String DBdirectory;
     private Model data;
     private String ontoFile;
+    
+    public static final String rdfUri  = "http://www.w3.org/1999/02/22-rdf-syntax-ns#";
+    public static final String rdfsUri = "http://www.w3.org/2000/01/rdf-schema#";
+    public static final String dsmwUri = "http://www.semanticweb.org/ontologies/2009/4/MS2W.owl#";
+    public static final String owlUri  = "http://www.w3.org/2002/07/owl#";
+    public static final String xsdUri  = "http://www.w3.org/2001/XMLSchema#";
+    public static final String foafUri = "http://xmlns.com/foaf/0.1/";
+    public static final String queryPrefix ="prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> "
+			+"prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> "
+			+"PREFIX MS2W: <http://www.semanticweb.org/ontologies/2009/4/MS2W.owl#> ";
 
     public Jena(String DB, String onto)
     {
@@ -36,83 +46,50 @@ public class Jena {
       data.close(); 
     }
 
+    public void addStatement(String s, String p, String o)
+    {
+      Resource subject=data.createResource(s);
+      Property predicate = data.createProperty(p);
+      Resource object=data.createResource(o);
+      Statement st=data.createStatement(subject,predicate,object);
+      data.add(st);
+    }
+
     public void addSite(Site S)
     {
-      String rdfUri = "http://www.w3.org/1999/02/22-rdf-syntax-ns#";
-      String dsmwUri = "http://www.semanticweb.org/ontologies/2009/4/MS2W.owl#";
-      Property predicate = data.createProperty(rdfUri,"type");
-      Resource subject=data.createResource(dsmwUri+S.getSiteID());
-      Resource object=data.createResource(dsmwUri+"WikiSite");
-      Statement st=data.createStatement(subject,predicate,object);
-      data.add(st);  
+        this.addStatement(dsmwUri+S.getSiteID(), rdfUri+"type", dsmwUri+"WikiSite");
     }
 
     public void addDocument(Document D)
     {
-      String rdfUri = "http://www.w3.org/1999/02/22-rdf-syntax-ns#";
-      String dsmwUri = "http://www.semanticweb.org/ontologies/2009/4/MS2W.owl#";
-      Property predicate = data.createProperty(rdfUri,"type");
-      Resource subject=data.createResource(dsmwUri+D.getDocID());
-      Resource object=data.createResource(dsmwUri+"Document");
-      Statement st=data.createStatement(subject,predicate,object);
-      data.add(st);
-
+        this.addStatement(dsmwUri+D.getDocID(), rdfUri+"type", dsmwUri+"Document");
     }
 
     public void addOperation(Operation O)
     {
-      String rdfUri = "http://www.w3.org/1999/02/22-rdf-syntax-ns#";
-      String dsmwUri = "http://www.semanticweb.org/ontologies/2009/4/MS2W.owl#";
-      Property predicate = data.createProperty(rdfUri,"type");
-      Resource subject=data.createResource(dsmwUri+O.getOpID());
-      Resource object=data.createResource(dsmwUri+"Operation");
-      Statement st=data.createStatement(subject,predicate,object);
-      data.add(st);
-
+        this.addStatement(dsmwUri+O.getOpID(), rdfUri+"type", dsmwUri+"Operation");
     }
 
     public void addPatch(Patch P)
     {
-      String rdfUri = "http://www.w3.org/1999/02/22-rdf-syntax-ns#";
-      String dsmwUri = "http://www.semanticweb.org/ontologies/2009/4/MS2W.owl#";
-      Property predicate = data.createProperty(rdfUri,"type");
-      Resource subject=data.createResource(dsmwUri+P.getPatchID());
-      Resource object=data.createResource(dsmwUri+"Patch");
-      Statement st=data.createStatement(subject,predicate,object);
-      data.add(st);
+        this.addStatement(dsmwUri+P.getPatchID(), rdfUri+"type", dsmwUri+"Patch");
+        this.addStatement(dsmwUri+P.getPatchID(), dsmwUri+"onPage", dsmwUri+P.getDoc().getDocID());
+        this.addStatement(dsmwUri+P.getPatchID(), dsmwUri+"previous", dsmwUri+P.getPrevious().getPatchID());
     }
 
     public void addChangeSet(ChangeSet C)
     {
-      String rdfUri = "http://www.w3.org/1999/02/22-rdf-syntax-ns#";
-      String dsmwUri = "http://www.semanticweb.org/ontologies/2009/4/MS2W.owl#";
-      Property predicate = data.createProperty(rdfUri,"type");
-      Resource subject=data.createResource(dsmwUri+C.getChgSetID());
-      Resource object=data.createResource(dsmwUri+"ChangeSet");
-      Statement st=data.createStatement(subject,predicate,object);
-      data.add(st);
+        this.addStatement(dsmwUri+C.getChgSetID(), rdfUri+"type", dsmwUri+"ChangeSet");
     }
 
     public void addPullFeed(PullFeed PF)
     {
-      String rdfUri = "http://www.w3.org/1999/02/22-rdf-syntax-ns#";
-      String dsmwUri = "http://www.semanticweb.org/ontologies/2009/4/MS2W.owl#";
-      Property predicate = data.createProperty(rdfUri,"type");
-      Resource subject=data.createResource(dsmwUri+PF.getPullFeedID());
-      Resource object=data.createResource(dsmwUri+"PullFeed");
-      Statement st=data.createStatement(subject,predicate,object);
-      data.add(st);
+        this.addStatement(dsmwUri+PF.getPullFeedID(), rdfUri+"type", dsmwUri+"PullFeed");
     }
 
     public void addPushFeed(PushFeed PF)
     {
-      String rdfUri = "http://www.w3.org/1999/02/22-rdf-syntax-ns#";
-      String dsmwUri = "http://www.semanticweb.org/ontologies/2009/4/MS2W.owl#";
-      Property predicate = data.createProperty(rdfUri,"type");
-      Resource subject=data.createResource(dsmwUri+PF.getPushFeedID());
-      Resource object=data.createResource(dsmwUri+"PushFeed");
-      Statement st=data.createStatement(subject,predicate,object);
-      data.add(st);
+        this.addStatement(dsmwUri+PF.getPushFeedID(), rdfUri+"type", dsmwUri+"PushFeed");
     }
 
 
@@ -127,10 +104,8 @@ public class Jena {
     {
         String query1;
         QueryExecution qe1;
-        query1="prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> "
-			+"prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> "
-			+"PREFIX MS2W: <http://www.semanticweb.org/ontologies/2009/4/MS2W.owl#> "
-			+"SELECT DISTINCT ?site WHERE { "
+        query1=queryPrefix +
+			"SELECT DISTINCT ?site WHERE { "
 			+"{?site a MS2W:WikiSite} "
 			+"}";
 
