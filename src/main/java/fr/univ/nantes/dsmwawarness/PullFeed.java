@@ -59,10 +59,11 @@ public PullFeed(String id, PushFeed r) {
     public void pull() {
 
 
-        while (this.get(headPullFeed)!= null)
-            if (this.get(headPullFeed).getChgSetID().equals(this.getRelatedPushFeed().))
+  //      while (this.get(headPullFeed)!= null)
+          //  if (this.get(headPullFeed).getChgSetID().equals(this.getRelatedPushFeed().))
 
         
 
     }
 }
+
