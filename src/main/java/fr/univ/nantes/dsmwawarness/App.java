@@ -1,25 +1,29 @@
 package fr.univ.nantes.dsmwawarness;
 
+import com.hp.hpl.jena.query.QueryExecution;
+
 public class App 
 {
     public static void main( String[] args )
     {
-        if (args.length<4)
+        if (args.length<2)
         {
-                System.err.println("Usage: java -jar loadData <TDB folder> <ontology file> <data file> <output file>");
+                System.err.println("Usage: java -jar loadData <TDB folder> <ontology file> ");
                 System.exit(0);
         }
 
-        String directory = args[0] ;
+        String DBdirectory = args[0] ;
         String ontoFile = "file:"+args[1];
-        String dataFile = "file:"+args[2];
-        String outputFile = args[3];
         
-        Jena J= new Jena(directory);
+        Site MySite = new Site("Site1");
 
-        J.loadData(ontoFile, dataFile);
-        J.extractKnows(outputFile);
+        Jena J= new Jena(DBdirectory,ontoFile);
 
+        J.addSite(MySite);
+
+        J.listSites();
+        System.out.println("===========");
+        J.listStatements();
         J.close();
     }
 
