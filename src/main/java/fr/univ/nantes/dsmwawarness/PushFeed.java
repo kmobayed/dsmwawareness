@@ -9,6 +9,7 @@ package fr.univ.nantes.dsmwawarness;
 public class PushFeed {
     private String pushFeedID;
     private ChangeSet hasPushHead;
+    private Site site;
   
     
     public PushFeed(String id) {
@@ -23,6 +24,15 @@ public class PushFeed {
         this.pushFeedID = pushFeedID;
     }
 
+    public void setSite(Site S)
+    {
+        site=S;
+    }
+
+    public Site getSite()
+    {
+        return site;
+    }
 
     public ChangeSet getHasPushHead() {
         return hasPushHead;
