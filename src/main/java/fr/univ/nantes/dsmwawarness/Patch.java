@@ -13,6 +13,7 @@ private Collection<Operation> operations;
 private Boolean published;
 private Document doc;
 private Patch previous;
+private ChangeSet chgSet;
 
 
 public Patch(String id) {
@@ -30,7 +31,15 @@ public Patch(String id, Document mydoc,Boolean p) {
     doc = mydoc;
 }
 
+    public void setChgSet(ChangeSet C)
+    {
+        chgSet=C;
+    }
 
+    public ChangeSet getChgSet()
+    {
+        return chgSet;
+    }
 public Patch(String id, Document mydoc, Patch prev, Boolean p) {
     patchID= id;
     published =p;
