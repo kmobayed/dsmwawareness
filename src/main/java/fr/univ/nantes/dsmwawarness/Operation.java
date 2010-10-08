@@ -7,6 +7,7 @@ package fr.univ.nantes.dsmwawarness;
 public class Operation {
  private String opID;
  private String optype;
+ private Patch patch;
 
 public Operation (String ID, String type) {
     opID = ID;
@@ -27,6 +28,15 @@ public Operation (String ID, String type) {
 
     public void setOptype(String optype) {
         this.optype = optype;
+    }
+
+
+    public Patch getPatch() {
+        return patch;
+    }
+
+    public void setPatch(Patch p) {
+        this.patch = p;
     }
 
 }
