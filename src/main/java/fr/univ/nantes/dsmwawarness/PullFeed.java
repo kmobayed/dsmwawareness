@@ -10,6 +10,7 @@ public class PullFeed {
 private String pullFeedID;
 private PushFeed relatedPushFeed;
 private ChangeSet headPullFeed;
+private Site site;
 
 public PullFeed(String id) {
     pullFeedID = id;
@@ -36,6 +37,15 @@ public PullFeed(String id, PushFeed r) {
         this.relatedPushFeed = relatedPushFeed;
     }
 
+    public void setSite(Site S)
+    {
+        site=S;
+    }
+
+    public Site getSite()
+    {
+        return site;
+    }
 
     public String getPullFeedID() {
         return pullFeedID;
