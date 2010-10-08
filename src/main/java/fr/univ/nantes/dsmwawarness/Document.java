@@ -7,6 +7,7 @@ package fr.univ.nantes.dsmwawarness;
 public class Document {
 private String docID;
 private Patch head;
+private Site site;
 
 public Document(String id) {
     docID=id;
@@ -28,6 +29,14 @@ public Document(String id) {
         this.head = head;
     }
 
+
+    public Site getSite() {
+        return site;
+    }
+
+    public void setSite(Site s) {
+        this.site = s;
+    }
 
 
 
