@@ -1,7 +1,5 @@
 package fr.univ.nantes.dsmwawarness;
 
-import java.util.Collection;
-
 /**
  *
  * @author halaskaf

@@ -12,6 +12,7 @@ import com.hp.hpl.jena.rdf.model.Resource;
 import com.hp.hpl.jena.rdf.model.Statement;
 import com.hp.hpl.jena.rdf.model.StmtIterator;
 import com.hp.hpl.jena.tdb.TDBFactory;
+import java.util.Iterator;
 
 
 /**
@@ -58,11 +59,27 @@ public class Jena {
     public void addSite(Site S)
     {
         this.addStatement(dsmwUri+S.getSiteID(), rdfUri+"type", dsmwUri+"WikiSite");
+        
+        Iterator iterator1 = S.getPushs().iterator();
+        while(iterator1.hasNext()){
+            PushFeed PF1 = (PushFeed) iterator1.next();
+            this.addStatement(dsmwUri+S.getSiteID(), dsmwUri+"hasPush", dsmwUri+PF1.getPushFeedID());
+        }
+
+        Iterator iterator2 = S.getPulls().iterator();
+        while(iterator2.hasNext()){
+            PullFeed PF2 = (PullFeed) iterator2.next();
+            this.addStatement(dsmwUri+S.getSiteID(), dsmwUri+"hasPull", dsmwUri+PF2.getPullFeedID());
+        }
+
+
     }
 
     public void addDocument(Document D)
     {
         this.addStatement(dsmwUri+D.getDocID(), rdfUri+"type", dsmwUri+"Document");
+        this.addStatement(dsmwUri+D.getDocID(), dsmwUri+"head", dsmwUri+D.getHead().getPatchID());
+
     }
 
     public void addOperation(Operation O)
@@ -80,20 +97,28 @@ public class Jena {
     public void addChangeSet(ChangeSet C)
     {
         this.addStatement(dsmwUri+C.getChgSetID(), rdfUri+"type", dsmwUri+"ChangeSet");
+        this.addStatement(dsmwUri+C.getChgSetID(), dsmwUri+"previousChgSet", dsmwUri+C.getPreviousChgSet().getChgSetID());
+        if (!C.getInPullFeed().getPullFeedID().isEmpty()) this.addStatement(dsmwUri+C.getChgSetID(), dsmwUri+"inPullFeed", dsmwUri+C.getInPullFeed().getPullFeedID());
+        if (!C.getInPushFeed().getPushFeedID().isEmpty()) this.addStatement(dsmwUri+C.getChgSetID(), dsmwUri+"inPushFeed", dsmwUri+C.getInPushFeed().getPushFeedID());
+        
     }
 
     public void addPullFeed(PullFeed PF)
     {
         this.addStatement(dsmwUri+PF.getPullFeedID(), rdfUri+"type", dsmwUri+"PullFeed");
+        this.addStatement(dsmwUri+PF.getPullFeedID(), dsmwUri+"hasPullHead", dsmwUri+PF.getHeadPullFeed().getChgSetID());
+        this.addStatement(dsmwUri+PF.getPullFeedID(), dsmwUri+"hasRelatedPush", dsmwUri+PF.getRelatedPushFeed().getPushFeedID());
+
     }
 
     public void addPushFeed(PushFeed PF)
     {
         this.addStatement(dsmwUri+PF.getPushFeedID(), rdfUri+"type", dsmwUri+"PushFeed");
+        this.addStatement(dsmwUri+PF.getPushFeedID(), dsmwUri+"hasPushHead", dsmwUri+PF.getHasPushHead().getChgSetID());
     }
 
 
-    public void loadData(String dataFile)
+    public void loadDataFile(String dataFile)
     {
 		System.out.print("Loading the data ... ");
 		data.read(dataFile,"N3");

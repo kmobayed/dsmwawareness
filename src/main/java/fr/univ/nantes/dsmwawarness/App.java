@@ -15,7 +15,7 @@ public class App
         String DBdirectory = args[0] ;
         String ontoFile = "file:"+args[1];
         
-        Site MySite = new Site("Site1");
+        Site MySite = new Site("Site2");
 
         Jena J= new Jena(DBdirectory,ontoFile);
 
